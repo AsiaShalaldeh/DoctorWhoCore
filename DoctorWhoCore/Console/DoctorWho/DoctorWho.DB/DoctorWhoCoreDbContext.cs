@@ -45,6 +45,7 @@ namespace DoctorWho.DB
                 .WithMany()
                 .HasForeignKey(ec => ec.EpisodeId));
 
+            modelBuilder.Seed();
         }
     }
 }
