@@ -5,9 +5,9 @@
         public int DoctorId { get; set; }
         public int DoctorNumber { get; set; }
         public string DoctorName { get; set; }
-        public DateOnly BirthDate { get; set; }
-        public DateOnly FirstEpisodeDate { get; set; }
-        public DateOnly LastEpisodeDate { get; set; }
+        public DateTime BirthDate { get; set; }
+        public DateTime FirstEpisodeDate { get; set; }
+        public DateTime LastEpisodeDate { get; set; }
         public List<Episode> Episodes { get; set; }
     }
 }

@@ -10,6 +10,11 @@ namespace DoctorWho.DB
         public DbSet<Author> Authors { get; set; }
         public DbSet<Doctor> Doctor { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("server=DESKTOP-TD29OVV;database=DoctorWhoCore;trusted_connection=true;TrustServerCertificate=True");
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configure many-to-many relationship between Episode and Enemy

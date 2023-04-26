@@ -1,0 +1,14 @@
+C:\Users\Done\Desktop\EFCore\DoctorWhoCore\Console\DoctorWho\DoctorWho.DB\bin\Debug\net6.0\DoctorWho.DB.deps.json
+C:\Users\Done\Desktop\EFCore\DoctorWhoCore\Console\DoctorWho\DoctorWho.DB\bin\Debug\net6.0\DoctorWho.DB.runtimeconfig.json
+C:\Users\Done\Desktop\EFCore\DoctorWhoCore\Console\DoctorWho\DoctorWho.DB\bin\Debug\net6.0\DoctorWho.DB.dll
+C:\Users\Done\Desktop\EFCore\DoctorWhoCore\Console\DoctorWho\DoctorWho.DB\bin\Debug\net6.0\DoctorWho.DB.pdb
+C:\Users\Done\Desktop\EFCore\DoctorWhoCore\Console\DoctorWho\DoctorWho.DB\obj\Debug\net6.0\DoctorWho.DB.csproj.AssemblyReference.cache
+C:\Users\Done\Desktop\EFCore\DoctorWhoCore\Console\DoctorWho\DoctorWho.DB\obj\Debug\net6.0\DoctorWho.DB.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Done\Desktop\EFCore\DoctorWhoCore\Console\DoctorWho\DoctorWho.DB\obj\Debug\net6.0\DoctorWho.DB.AssemblyInfoInputs.cache
+C:\Users\Done\Desktop\EFCore\DoctorWhoCore\Console\DoctorWho\DoctorWho.DB\obj\Debug\net6.0\DoctorWho.DB.AssemblyInfo.cs
+C:\Users\Done\Desktop\EFCore\DoctorWhoCore\Console\DoctorWho\DoctorWho.DB\obj\Debug\net6.0\DoctorWho.DB.csproj.CoreCompileInputs.cache
+C:\Users\Done\Desktop\EFCore\DoctorWhoCore\Console\DoctorWho\DoctorWho.DB\obj\Debug\net6.0\DoctorWho.DB.dll
+C:\Users\Done\Desktop\EFCore\DoctorWhoCore\Console\DoctorWho\DoctorWho.DB\obj\Debug\net6.0\refint\DoctorWho.DB.dll
+C:\Users\Done\Desktop\EFCore\DoctorWhoCore\Console\DoctorWho\DoctorWho.DB\obj\Debug\net6.0\DoctorWho.DB.pdb
+C:\Users\Done\Desktop\EFCore\DoctorWhoCore\Console\DoctorWho\DoctorWho.DB\obj\Debug\net6.0\DoctorWho.DB.genruntimeconfig.cache
+C:\Users\Done\Desktop\EFCore\DoctorWhoCore\Console\DoctorWho\DoctorWho.DB\obj\Debug\net6.0\ref\DoctorWho.DB.dll
