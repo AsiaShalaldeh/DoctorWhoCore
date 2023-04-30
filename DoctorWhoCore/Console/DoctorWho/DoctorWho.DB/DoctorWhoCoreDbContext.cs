@@ -12,7 +12,11 @@ namespace DoctorWho.DB
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=DESKTOP-TD29OVV;database=DoctorWhoCore;trusted_connection=true;TrustServerCertificate=True");
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("server=DESKTOP-TD29OVV;database=DoctorWhoCore;" +
+                    "trusted_connection=true;TrustServerCertificate=True");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
