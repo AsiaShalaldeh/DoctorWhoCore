@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DoctorWho.DB.Migrations
 {
     [DbContext(typeof(DoctorWhoCoreDbContext))]
-    [Migration("20230430183422_addEnemiesFunc")]
-    partial class addEnemiesFunc
+    [Migration("20230430212946_UpdateModels")]
+    partial class UpdateModels
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -148,7 +148,7 @@ namespace DoctorWho.DB.Migrations
 
                     b.HasKey("DoctorId");
 
-                    b.ToTable("Doctor");
+                    b.ToTable("Doctors");
 
                     b.HasData(
                         new
@@ -359,106 +359,85 @@ namespace DoctorWho.DB.Migrations
 
             modelBuilder.Entity("DoctorWho.DB.EpisodeCompanion", b =>
                 {
-                    b.Property<int>("EpisodeCompanionId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("EpisodeId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EpisodeCompanionId"));
 
                     b.Property<int>("CompanionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("EpisodeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EpisodeCompanionId");
+                    b.HasKey("EpisodeId", "CompanionId");
 
                     b.HasIndex("CompanionId");
 
-                    b.HasIndex("EpisodeId");
-
-                    b.ToTable("EpisodeCompanion");
+                    b.ToTable("EpisodeCompanions");
 
                     b.HasData(
                         new
                         {
-                            EpisodeCompanionId = 1,
-                            CompanionId = 2,
-                            EpisodeId = 1
+                            EpisodeId = 1,
+                            CompanionId = 2
                         },
                         new
                         {
-                            EpisodeCompanionId = 2,
-                            CompanionId = 2,
-                            EpisodeId = 3
+                            EpisodeId = 3,
+                            CompanionId = 2
                         },
                         new
                         {
-                            EpisodeCompanionId = 3,
-                            CompanionId = 1,
-                            EpisodeId = 5
+                            EpisodeId = 5,
+                            CompanionId = 1
                         },
                         new
                         {
-                            EpisodeCompanionId = 4,
-                            CompanionId = 4,
-                            EpisodeId = 3
+                            EpisodeId = 3,
+                            CompanionId = 4
                         },
                         new
                         {
-                            EpisodeCompanionId = 5,
-                            CompanionId = 5,
-                            EpisodeId = 2
+                            EpisodeId = 2,
+                            CompanionId = 5
                         });
                 });
 
             modelBuilder.Entity("DoctorWho.DB.EpisodeEnemy", b =>
                 {
-                    b.Property<int>("EnemyId")
-                        .HasColumnType("int");
-
                     b.Property<int>("EpisodeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("EpisodEnemyId")
+                    b.Property<int>("EnemyId")
                         .HasColumnType("int");
 
-                    b.HasKey("EnemyId", "EpisodeId");
+                    b.HasKey("EpisodeId", "EnemyId");
 
-                    b.HasIndex("EpisodeId");
+                    b.HasIndex("EnemyId");
 
-                    b.ToTable("EpisodeEnemy");
+                    b.ToTable("EpisodeEnemies");
 
                     b.HasData(
                         new
                         {
-                            EnemyId = 2,
                             EpisodeId = 1,
-                            EpisodEnemyId = 1
+                            EnemyId = 2
                         },
                         new
                         {
-                            EnemyId = 2,
                             EpisodeId = 3,
-                            EpisodEnemyId = 2
+                            EnemyId = 2
                         },
                         new
                         {
-                            EnemyId = 1,
                             EpisodeId = 5,
-                            EpisodEnemyId = 3
+                            EnemyId = 1
                         },
                         new
                         {
-                            EnemyId = 4,
                             EpisodeId = 3,
-                            EpisodEnemyId = 4
+                            EnemyId = 4
                         },
                         new
                         {
-                            EnemyId = 5,
                             EpisodeId = 2,
-                            EpisodEnemyId = 5
+                            EnemyId = 5
                         });
                 });
 
@@ -479,32 +458,40 @@ namespace DoctorWho.DB.Migrations
 
             modelBuilder.Entity("DoctorWho.DB.EpisodeCompanion", b =>
                 {
-                    b.HasOne("DoctorWho.DB.Companion", null)
-                        .WithMany()
+                    b.HasOne("DoctorWho.DB.Companion", "Companion")
+                        .WithMany("EpisodeCompanions")
                         .HasForeignKey("CompanionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DoctorWho.DB.Episode", null)
-                        .WithMany()
+                    b.HasOne("DoctorWho.DB.Episode", "Episode")
+                        .WithMany("EpisodeCompanions")
                         .HasForeignKey("EpisodeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Companion");
+
+                    b.Navigation("Episode");
                 });
 
             modelBuilder.Entity("DoctorWho.DB.EpisodeEnemy", b =>
                 {
-                    b.HasOne("DoctorWho.DB.Enemy", null)
-                        .WithMany()
+                    b.HasOne("DoctorWho.DB.Enemy", "Enemy")
+                        .WithMany("EpisodeEnemies")
                         .HasForeignKey("EnemyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DoctorWho.DB.Episode", null)
-                        .WithMany()
+                    b.HasOne("DoctorWho.DB.Episode", "Episode")
+                        .WithMany("EpisodeEnemies")
                         .HasForeignKey("EpisodeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Enemy");
+
+                    b.Navigation("Episode");
                 });
 
             modelBuilder.Entity("DoctorWho.DB.Author", b =>
@@ -512,9 +499,26 @@ namespace DoctorWho.DB.Migrations
                     b.Navigation("Episodes");
                 });
 
+            modelBuilder.Entity("DoctorWho.DB.Companion", b =>
+                {
+                    b.Navigation("EpisodeCompanions");
+                });
+
             modelBuilder.Entity("DoctorWho.DB.Doctor", b =>
                 {
                     b.Navigation("Episodes");
+                });
+
+            modelBuilder.Entity("DoctorWho.DB.Enemy", b =>
+                {
+                    b.Navigation("EpisodeEnemies");
+                });
+
+            modelBuilder.Entity("DoctorWho.DB.Episode", b =>
+                {
+                    b.Navigation("EpisodeCompanions");
+
+                    b.Navigation("EpisodeEnemies");
                 });
 #pragma warning restore 612, 618
         }

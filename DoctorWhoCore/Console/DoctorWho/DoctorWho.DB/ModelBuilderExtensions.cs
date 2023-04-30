@@ -97,18 +97,18 @@ namespace DoctorWho.DB
                 }
                 );
             modelBuilder.Entity<EpisodeCompanion>().HasData(
-                new EpisodeCompanion { EpisodeCompanionId = 1, EpisodeId = 1, CompanionId = 2},
-                new EpisodeCompanion { EpisodeCompanionId = 2, EpisodeId = 3, CompanionId = 2 },
-                new EpisodeCompanion { EpisodeCompanionId = 3, EpisodeId = 5, CompanionId = 1 },
-                new EpisodeCompanion { EpisodeCompanionId = 4, EpisodeId = 3, CompanionId = 4 },
-                new EpisodeCompanion { EpisodeCompanionId = 5, EpisodeId = 2, CompanionId = 5 }
+                new EpisodeCompanion { EpisodeId = 1, CompanionId = 2 },
+                new EpisodeCompanion { EpisodeId = 3, CompanionId = 2 },
+                new EpisodeCompanion { EpisodeId = 5, CompanionId = 1 },
+                new EpisodeCompanion { EpisodeId = 3, CompanionId = 4 },
+                new EpisodeCompanion { EpisodeId = 2, CompanionId = 5 }
                 );
             modelBuilder.Entity<EpisodeEnemy>().HasData(
-                new EpisodeEnemy { EpisodEnemyId = 1, EpisodeId = 1, EnemyId = 2 },
-                new EpisodeEnemy { EpisodEnemyId = 2, EpisodeId = 3, EnemyId = 2 },
-                new EpisodeEnemy { EpisodEnemyId = 3, EpisodeId = 5, EnemyId = 1 },
-                new EpisodeEnemy { EpisodEnemyId = 4, EpisodeId = 3, EnemyId = 4 },
-                new EpisodeEnemy { EpisodEnemyId = 5, EpisodeId = 2, EnemyId = 5 }
+                new EpisodeEnemy { EpisodeId = 1, EnemyId = 2 },
+                new EpisodeEnemy { EpisodeId = 3, EnemyId = 2 },
+                new EpisodeEnemy { EpisodeId = 5, EnemyId = 1 },
+                new EpisodeEnemy { EpisodeId = 3, EnemyId = 4 },
+                new EpisodeEnemy { EpisodeId = 2, EnemyId = 5 }
                 );
         }
     }

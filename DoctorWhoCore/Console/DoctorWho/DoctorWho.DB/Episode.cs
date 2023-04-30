@@ -11,7 +11,7 @@
         public string Notes { get; set; }
         public int AuthorId { get; set; }
         public int DoctorId { get; set; }
-        public List<Companion> Companions { get; set; }
-        public List<Enemy> Enemies { get; set; }
+        public IList<EpisodeCompanion> EpisodeCompanions { get; set; }
+        public IList<EpisodeEnemy> EpisodeEnemies { get; set; }
     }
 }

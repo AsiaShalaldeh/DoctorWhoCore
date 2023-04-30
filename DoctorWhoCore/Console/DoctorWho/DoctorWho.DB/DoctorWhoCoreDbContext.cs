@@ -8,8 +8,9 @@ namespace DoctorWho.DB
         public DbSet<Companion> Companions { get; set; }
         public DbSet<Enemy> Enemies { get; set; }
         public DbSet<Author> Authors { get; set; }
-        public DbSet<Doctor> Doctor { get; set; }
-
+        public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<EpisodeEnemy> EpisodeEnemies { get; set; }
+        public DbSet<EpisodeCompanion> EpisodeCompanions { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -17,37 +18,39 @@ namespace DoctorWho.DB
                 optionsBuilder.UseSqlServer("server=DESKTOP-TD29OVV;database=DoctorWhoCore;" +
                     "trusted_connection=true;TrustServerCertificate=True");
             }
+            optionsBuilder.LogTo(Console.WriteLine);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure many-to-many relationship between Episode and Enemy
-            modelBuilder.Entity<Episode>()
-                .HasMany(e => e.Enemies)
-                .WithMany(e => e.Episodes)
-                .UsingEntity<EpisodeEnemy>(
-                join => join
-                .HasOne<Enemy>()
-                .WithMany()
-                .HasForeignKey(ee => ee.EnemyId),
-                join => join
-                .HasOne<Episode>()
-                .WithMany()
-                .HasForeignKey(ee => ee.EpisodeId));
-
             // Configure many-to-many relationship between Episode and Companion 
-            modelBuilder.Entity<Episode>()
-                .HasMany(e => e.Companions)
-                .WithMany(e => e.Episodes)
-                .UsingEntity<EpisodeCompanion>(
-                join => join
-                .HasOne<Companion>()
-                .WithMany()
-                .HasForeignKey(ec => ec.CompanionId),
-                join => join
-                .HasOne<Episode>()
-                .WithMany()
-                .HasForeignKey(ec => ec.EpisodeId));
+            modelBuilder.Entity<EpisodeCompanion>()
+            .HasKey(ec => new { ec.EpisodeId, ec.CompanionId });
+
+            modelBuilder.Entity<EpisodeCompanion>()
+                .HasOne(ec => ec.Episode)
+                .WithMany(e => e.EpisodeCompanions)
+                .HasForeignKey(ec => ec.EpisodeId);
+
+            modelBuilder.Entity<EpisodeCompanion>()
+                .HasOne(ec => ec.Companion)
+                .WithMany(c => c.EpisodeCompanions)
+                .HasForeignKey(ec => ec.CompanionId);
+
+            // Configure many-to-many relationship between Episode and Enemy
+            modelBuilder.Entity<EpisodeEnemy>()
+            .HasKey(ee => new { ee.EpisodeId, ee.EnemyId });
+
+            modelBuilder.Entity<EpisodeEnemy>()
+                .HasOne(ee => ee.Episode)
+                .WithMany(e => e.EpisodeEnemies)
+                .HasForeignKey(ee => ee.EpisodeId);
+
+            modelBuilder.Entity<EpisodeEnemy>()
+                .HasOne(ee => ee.Enemy)
+                .WithMany(e => e.EpisodeEnemies)
+                .HasForeignKey(ee => ee.EnemyId);
+
 
             modelBuilder.Seed();
         }

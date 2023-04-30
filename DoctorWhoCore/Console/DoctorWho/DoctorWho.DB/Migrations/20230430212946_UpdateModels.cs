@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace DoctorWho.DB.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class UpdateModels : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,7 +41,7 @@ namespace DoctorWho.DB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Doctor",
+                name: "Doctors",
                 columns: table => new
                 {
                     DoctorId = table.Column<int>(type: "int", nullable: false)
@@ -52,7 +54,7 @@ namespace DoctorWho.DB.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Doctor", x => x.DoctorId);
+                    table.PrimaryKey("PK_Doctors", x => x.DoctorId);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,33 +96,31 @@ namespace DoctorWho.DB.Migrations
                         principalColumn: "AuthorId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Episodes_Doctor_DoctorId",
+                        name: "FK_Episodes_Doctors_DoctorId",
                         column: x => x.DoctorId,
-                        principalTable: "Doctor",
+                        principalTable: "Doctors",
                         principalColumn: "DoctorId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "EpisodeCompanion",
+                name: "EpisodeCompanions",
                 columns: table => new
                 {
-                    EpisodeCompanionId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     EpisodeId = table.Column<int>(type: "int", nullable: false),
                     CompanionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EpisodeCompanion", x => x.EpisodeCompanionId);
+                    table.PrimaryKey("PK_EpisodeCompanions", x => new { x.EpisodeId, x.CompanionId });
                     table.ForeignKey(
-                        name: "FK_EpisodeCompanion_Companions_CompanionId",
+                        name: "FK_EpisodeCompanions_Companions_CompanionId",
                         column: x => x.CompanionId,
                         principalTable: "Companions",
                         principalColumn: "CompanionId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EpisodeCompanion_Episodes_EpisodeId",
+                        name: "FK_EpisodeCompanions_Episodes_EpisodeId",
                         column: x => x.EpisodeId,
                         principalTable: "Episodes",
                         principalColumn: "EpisodeId",
@@ -128,44 +128,122 @@ namespace DoctorWho.DB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EpisodeEnemy",
+                name: "EpisodeEnemies",
                 columns: table => new
                 {
                     EpisodeId = table.Column<int>(type: "int", nullable: false),
-                    EnemyId = table.Column<int>(type: "int", nullable: false),
-                    EpisodEnemyId = table.Column<int>(type: "int", nullable: false)
+                    EnemyId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EpisodeEnemy", x => new { x.EnemyId, x.EpisodeId });
+                    table.PrimaryKey("PK_EpisodeEnemies", x => new { x.EpisodeId, x.EnemyId });
                     table.ForeignKey(
-                        name: "FK_EpisodeEnemy_Enemies_EnemyId",
+                        name: "FK_EpisodeEnemies_Enemies_EnemyId",
                         column: x => x.EnemyId,
                         principalTable: "Enemies",
                         principalColumn: "EnemyId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EpisodeEnemy_Episodes_EpisodeId",
+                        name: "FK_EpisodeEnemies_Episodes_EpisodeId",
                         column: x => x.EpisodeId,
                         principalTable: "Episodes",
                         principalColumn: "EpisodeId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Authors",
+                columns: new[] { "AuthorId", "AuthorName" },
+                values: new object[,]
+                {
+                    { 1, "John Doe" },
+                    { 2, "Jane Doe" },
+                    { 3, "Bob Smith" },
+                    { 4, "Alice Johnson" },
+                    { 5, "Tom Lee" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Companions",
+                columns: new[] { "CompanionId", "CompanionName", "WhoPlayed" },
+                values: new object[,]
+                {
+                    { 1, "Rose Tyler", "Billie Piper" },
+                    { 2, "Martha Jones", "Freema Agyeman" },
+                    { 3, "Donna Noble", "Catherine Tate" },
+                    { 4, "Amy Pond", "Karen Gillan" },
+                    { 5, "Clara Oswald", "Jenna Coleman" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Doctors",
+                columns: new[] { "DoctorId", "BirthDate", "DoctorName", "DoctorNumber", "FirstEpisodeDate", "LastEpisodeDate" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "John Smith", 1234, new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, new DateTime(1975, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Jane Doe", 5678, new DateTime(2020, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, new DateTime(1990, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bob Johnson", 9012, new DateTime(2020, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, new DateTime(1985, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "Alice Lee", 3456, new DateTime(2020, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 4, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, new DateTime(1970, 7, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), "Tom Wilson", 7890, new DateTime(2020, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 5, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Enemies",
+                columns: new[] { "EnemyId", "Description", "EnemyName" },
+                values: new object[,]
+                {
+                    { 1, "Exterminate! Exterminate!", "Daleks" },
+                    { 2, "Upgrade in progress.", "Cybermen" },
+                    { 3, "Oh, you know who I am.", "The Master" },
+                    { 4, "Don't blink!", "Weeping Angels" },
+                    { 5, "You forget them as soon as you look away.", "Silence" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Episodes",
+                columns: new[] { "EpisodeId", "AuthorId", "DoctorId", "EpisodeDate", "EpisodeNumber", "EpisodeType", "Notes", "SeriesNumber", "Title" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, new DateTime(1963, 11, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Regular", "First appearance of the Doctor and the TARDIS.", 1, "An Unearthly Child" },
+                    { 2, 2, 1, new DateTime(1965, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, "Regular", "Historical adventure featuring the first Doctor.", 2, "The Romans" },
+                    { 3, 3, 2, new DateTime(1966, 6, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 10, "Regular", "First appearance of Ben and Polly.", 3, "The War Machines" },
+                    { 4, 4, 2, new DateTime(1966, 12, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Regular", "Historical adventure featuring the second Doctor.", 4, "The Highlanders" },
+                    { 5, 5, 2, new DateTime(1967, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Regular", "First appearance of Victoria Waterfield.", 5, "Tomb of the Cybermen" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EpisodeCompanions",
+                columns: new[] { "CompanionId", "EpisodeId" },
+                values: new object[,]
+                {
+                    { 2, 1 },
+                    { 5, 2 },
+                    { 2, 3 },
+                    { 4, 3 },
+                    { 1, 5 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EpisodeEnemies",
+                columns: new[] { "EnemyId", "EpisodeId" },
+                values: new object[,]
+                {
+                    { 2, 1 },
+                    { 5, 2 },
+                    { 2, 3 },
+                    { 4, 3 },
+                    { 1, 5 }
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_EpisodeCompanion_CompanionId",
-                table: "EpisodeCompanion",
+                name: "IX_EpisodeCompanions_CompanionId",
+                table: "EpisodeCompanions",
                 column: "CompanionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EpisodeCompanion_EpisodeId",
-                table: "EpisodeCompanion",
-                column: "EpisodeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EpisodeEnemy_EpisodeId",
-                table: "EpisodeEnemy",
-                column: "EpisodeId");
+                name: "IX_EpisodeEnemies_EnemyId",
+                table: "EpisodeEnemies",
+                column: "EnemyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Episodes_AuthorId",
@@ -182,10 +260,10 @@ namespace DoctorWho.DB.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EpisodeCompanion");
+                name: "EpisodeCompanions");
 
             migrationBuilder.DropTable(
-                name: "EpisodeEnemy");
+                name: "EpisodeEnemies");
 
             migrationBuilder.DropTable(
                 name: "Companions");
@@ -200,7 +278,7 @@ namespace DoctorWho.DB.Migrations
                 name: "Authors");
 
             migrationBuilder.DropTable(
-                name: "Doctor");
+                name: "Doctors");
         }
     }
 }
