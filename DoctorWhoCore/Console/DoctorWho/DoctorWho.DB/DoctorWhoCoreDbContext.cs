@@ -11,6 +11,8 @@ namespace DoctorWho.DB
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<EpisodeEnemy> EpisodeEnemies { get; set; }
         public DbSet<EpisodeCompanion> EpisodeCompanions { get; set; }
+        public DbSet<EpisodeSummary> EpisodeSummary { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -23,6 +25,8 @@ namespace DoctorWho.DB
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<EpisodeSummary>().HasNoKey().ToView(null);
+
             // Configure many-to-many relationship between Episode and Companion 
             modelBuilder.Entity<EpisodeCompanion>()
             .HasKey(ec => new { ec.EpisodeId, ec.CompanionId });
