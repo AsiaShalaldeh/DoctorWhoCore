@@ -227,3 +227,61 @@ void DeleteEpisode()
     _context.SaveChanges();
 }
 //DeleteEpisode();
+
+void AddEnemyToEpisode()
+{
+    var enemy = _context.Enemies.Where(e => e.EnemyId == 3).FirstOrDefault();
+    var episode = _context.Episodes.Where(ep => ep.EpisodeId == 5).FirstOrDefault();
+
+    var episodeEnemy = new EpisodeEnemy
+    {
+        Enemy = enemy,
+        Episode = episode
+    };
+    _context.EpisodeEnemies.Add(episodeEnemy);
+    _context.SaveChanges();
+}
+//AddEnemyToEpisode();
+
+void AddCompanionToEpisode()
+{
+    var episode = _context.Episodes.Where(ep => ep.EpisodeId == 4).FirstOrDefault();
+    var companion = _context.Companions.Where(c => c.CompanionId == 3).FirstOrDefault();
+
+    var episodeCompanion = new EpisodeCompanion
+    {
+        Episode = episode,
+        Companion = companion
+    };
+    _context.EpisodeCompanions.Add(episodeCompanion);
+    _context.SaveChanges();
+}
+//AddCompanionToEpisode();
+
+void GetAllDoctors()
+{
+    var doctors = _context.Doctors.ToList();
+    foreach (var doctor in doctors)
+    {
+        Console.WriteLine("Doctor Name: " + doctor.DoctorName);
+    }
+}
+//GetAllDoctors();
+
+void GetEnemyById()
+{
+    var enemy = _context.Enemies.Where(e => e.EnemyId == 3).FirstOrDefault();
+    Console.WriteLine("Enemy Id: " + enemy.EnemyId);
+    Console.WriteLine("Enemy Name: " + enemy.EnemyName);
+    Console.WriteLine("Enemy Description: " + enemy.Description);
+}
+//GetEnemyById();
+
+void GetCompanionById()
+{
+    var companion = _context.Companions.Where(c => c.CompanionId == 3).FirstOrDefault();
+    Console.WriteLine("Companion Id: " + companion.CompanionId);
+    Console.WriteLine("Companion Name: " + companion.CompanionName);
+    Console.WriteLine("Who Played: " + companion.WhoPlayed);
+}
+//GetCompanionById();
